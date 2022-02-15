@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Vakansia</string>
+
+    <string name="reg_login">Логин</string>
+    <string name="reg_email">Email</string>
+    <string name="reg_pinkt">Населеный пункт</string>
+    <string name="reg_pass">Пароль</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<item android:id="@+id/search_job_name"
+    android:icon="@drawable/ic_search_icon"
+    android:title="Поиск по спеальности"
+    app:showAsAction="always"
+    app:actionViewClass="android.widget.SearchView"/>
+    <item android:id="@+id/search_local"
+        android:icon="@drawable/ic_search_icon"
+        android:title="Поиск по облости"
+        app:showAsAction="never"
+        app:actionViewClass="android.widget.SearchView"/>
+    <item android:id="@+id/search_data"
+        android:icon="@drawable/ic_search_icon"
+        android:title="Поиск по дате"
+        app:showAsAction="never"
+        app:actionViewClass="android.widget.SearchView"/>
+    <item android:id="@+id/search_work"
+        android:icon="@drawable/ic_search_icon"
+        android:title="Поиск по графику работы"
+        app:showAsAction="never"
+        app:actionViewClass="android.widget.SearchView"/>
+
+    <item android:id="@+id/search_zp"
+        android:icon="@drawable/ic_search_icon"
+        android:title="Поиск по заработной платы"
+        app:showAsAction="never"
+        app:actionViewClass="android.widget.SearchView"/>
+</menu>
