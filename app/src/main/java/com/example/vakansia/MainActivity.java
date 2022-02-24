@@ -1,21 +1,31 @@
 package com.example.vakansia;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.provider.Contacts;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,9 +40,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.w3c.dom.Text;
+
+
 public class MainActivity extends AppCompatActivity {
 
-    RecyclerView recyclerView;
+   RecyclerView recyclerView;
 
     private String oblast;
     private String PlusOblast = "Казахстан, Казахстан, ";
@@ -45,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String VACANCY_KEY = "vacancy";
     private String USER_KEY = "User";
-    private int SIZE_LIST = 50;
+   // private int SIZE_LIST = 50;
 
     MainAdapter mainAdapter;
 
@@ -76,11 +101,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         recyclerView = findViewById(R.id.RecyclerView_list);
+        recyclerView.setHasFixedSize(true);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         FirebaseRecyclerOptions<VacancyClass> options =
                 new FirebaseRecyclerOptions.Builder<VacancyClass>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child(VACANCY_KEY).orderByChild("location").startAt(oblast), VacancyClass.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child(VACANCY_KEY).orderByChild("location").startAt(oblast+"~"), VacancyClass.class)
                         .build();
         mainAdapter = new MainAdapter(options);
         recyclerView.setAdapter(mainAdapter);
@@ -162,4 +189,3 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(mainAdapter);
     }
 }
-

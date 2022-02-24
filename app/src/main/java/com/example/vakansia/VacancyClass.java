@@ -21,7 +21,7 @@ public class VacancyClass {
     }
 
     public String getLocation() {
-        int startNum = 11;
+        int startNum = 22;
         int endNum = location.length();
         location = location.substring(startNum, endNum);
         return location;

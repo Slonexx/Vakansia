@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Vakansia</string>
+    <string name="map_key" translatable="false">AIzaSyCSo5yeyjMtcgsT2VK4_qT6yMfKx512A8s</string>
 
+    <string name="login_auto">Авторизация</string>
+    <string name="login_rigst"><u>Создать его!</u></string>
+
+    <string name="reg_regist">Регистрация</string>
     <string name="reg_login">Логин</string>
     <string name="reg_email">Email</string>
     <string name="reg_pinkt">Населеный пункт</string>
