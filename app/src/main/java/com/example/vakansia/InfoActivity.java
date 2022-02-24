@@ -108,46 +108,27 @@ public class InfoActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
-        String address = getIntent().getStringExtra("location");
-        List<Address> addressList = null;
-        LatLng latLng = null;
-        MarkerOptions userMarkerOptions = new MarkerOptions();
+            String address = getIntent().getStringExtra("location");
+            List<Address> addressList = null;
+            LatLng latLng = null;
 
-            Geocoder geocoder = new Geocoder(this);
-            try {
-                addressList = geocoder.getFromLocationName(address, 1);
-                while (addressList.size()==0) {
-                    addressList = geocoder.getFromLocationName(address, 1);}
-                if (addressList.size()>0) {
-                    Address addr = addressList.get(0);
-                    latLng = new LatLng(addr.getLatitude(), addr.getLongitude());
-                }
-
-                googleMap.addMarker(new MarkerOptions().position(latLng).title(address));
-                googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                //googleMap.animateCamera(CameraUpdateFactory.zoomTo(14));
-
-                /*if (addressList != null){
-                for ( int i = 0; i<addressList.size(); i++) {
-                        Address userAddress = addressList.get(i);
-                        LatLng latLng = new LatLng(userAddress.getLatitude(), userAddress.getLongitude());
-                        googleMap.addMarker(new MarkerOptions().position(latLng).title(address));
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                        googleMap.animateCamera(CameraUpdateFactory.zoomTo(14));
+                Geocoder geocoder = new Geocoder(this);
+                try {
+                    addressList = geocoder.getFromLocationName(address, 1);
+                    while (addressList.size()==0) {
+                        addressList = geocoder.getFromLocationName(address, 1);}
+                    if (addressList.size()>0) {
+                        Address addr = addressList.get(0);
+                        latLng = new LatLng(addr.getLatitude(), addr.getLongitude());
                     }
-                }*/
-            } catch (IOException e) {
-                e.printStackTrace();
+
+                    googleMap.addMarker(new MarkerOptions().position(latLng).title(address));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
-
-
-        }
-
-        /*LatLng sydney = new LatLng(address.getLatitude(), address.getLongitude());
-        googleMap.addMarker(new MarkerOptions()
-                .position(sydney)
-                .title("Marker in Sydney"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));*/
     }
 

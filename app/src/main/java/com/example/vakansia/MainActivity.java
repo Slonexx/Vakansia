@@ -57,6 +57,9 @@ import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
+    private String VACANCY_KEY = "vacancy";
+    private String USER_KEY = "User";
+
    RecyclerView recyclerView;
 
     private String oblast;
@@ -66,11 +69,10 @@ public class MainActivity extends AppCompatActivity {
     SearchView searchView;
 
     private FirebaseAuth mAuth;
-    private DatabaseReference myRef;
 
-    private String VACANCY_KEY = "vacancy";
-    private String USER_KEY = "User";
-   // private int SIZE_LIST = 50;
+    private DatabaseReference myRef = FirebaseDatabase.getInstance().getReference(USER_KEY);
+    private DatabaseReference MyRefFilter = FirebaseDatabase.getInstance().getReference().child(VACANCY_KEY);
+    private Query query = MyRefFilter.orderByChild("location").startAt(oblast+"~");
 
     MainAdapter mainAdapter;
 
@@ -78,15 +80,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        //getSupportFragmentManager().beginTransaction().replace(R.id.wrapper, new recfragment()).commit();
         init();
     }
 
     private void init(){
         FirebaseUser user = mAuth.getInstance().getCurrentUser();
         if (user != null) {
-            myRef = FirebaseDatabase.getInstance().getReference(USER_KEY);
             myRef.child(user.getUid()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -97,7 +96,12 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) { }
             });
-
+            String Filter = getIntent().getStringExtra("Filter");
+            String Filter_id = getIntent().getStringExtra("Filter_id");
+            if (Filter != null){
+                query = MyRefFilter.orderByChild(Filter_id).startAt(Filter+"~");
+              //  Toast.makeText(MainActivity.this, Filter, Toast.LENGTH_SHORT).show();
+            }
         }
 
         recyclerView = findViewById(R.id.RecyclerView_list);
@@ -107,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseRecyclerOptions<VacancyClass> options =
                 new FirebaseRecyclerOptions.Builder<VacancyClass>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child(VACANCY_KEY).orderByChild("location").startAt(oblast+"~"), VacancyClass.class)
+                        .setQuery(query, VacancyClass.class)
                         .build();
         mainAdapter = new MainAdapter(options);
         recyclerView.setAdapter(mainAdapter);
@@ -134,11 +138,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.search,menu);
-
         MenuItem item = menu.findItem(R.id.search_job_name);
-
         SearchView searchView = (SearchView) item.getActionView();
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -152,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -160,20 +160,18 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         int id = item.getItemId();
-
+             Filter = "job_namen";
         if (id == R.id.search_job_name){
-            Filter = "job_name";
         } else if (id == R.id.search_local){
-            Filter = "location";
-        } else if (id == R.id.search_data){
+            Intent intent = new Intent(MainActivity.this, FilterActivity.class);
+            startActivity(intent);
+        } /*else if (id == R.id.search_data){
             Filter = "creation_date";
         } else if (id == R.id.search_work){
             Filter = "schedule";
         } else if (id == R.id.search_zp){
             Filter = "salary";
-        }
-
-
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -182,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
     private void txtSearch(String str){
         FirebaseRecyclerOptions<VacancyClass> options =
                 new FirebaseRecyclerOptions.Builder<VacancyClass>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child(VACANCY_KEY).orderByChild(Filter).startAt(str+"~"), VacancyClass.class)
+                        .setQuery(MyRefFilter.orderByChild(Filter).startAt(str+"~"), VacancyClass.class)
                         .build();
         mainAdapter = new MainAdapter(options);
         mainAdapter.startListening();
