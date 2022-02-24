@@ -61,6 +61,10 @@ public class FilterActivity extends AppCompatActivity {
             String job_name = tv_job_namen.getText().toString();
             String creation_date = tv_date.getText().toString();
             String location = "Казахстан, Казахстан, "+obalstFilter;
+            if (!TextUtils.isEmpty(location)){
+                Filter = location;
+                Filter_id = "location";
+            }
             if (!TextUtils.isEmpty(job_name)){
                 Filter = job_name;
                 Filter_id = "job_name";
@@ -69,10 +73,7 @@ public class FilterActivity extends AppCompatActivity {
                 Filter = creation_date;
                 Filter_id = "creation_date";
             }
-            if (!TextUtils.isEmpty(location)){
-                Filter = location;
-                Filter_id = "location";
-            }
+
             intent.putExtra("Filter_id", Filter_id);
             intent.putExtra("Filter",Filter);
 
